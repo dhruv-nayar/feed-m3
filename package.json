@@ -7,11 +7,9 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "node test.js",
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
   "dependencies": {
