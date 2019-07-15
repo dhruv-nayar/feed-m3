@@ -39,7 +39,7 @@ console.log('App is listening on port ' + port);
 //excludedFoods should be an array of strings for foods that you want excluded from the Edemam call
 function callEdemamAPI(requiredFoods, excludedFoods, originalRes){
 	data = "";
-	https.get('https://api.edamam.com/search?q=chicken&app_id='+Edemam.ID+'&app_key='+Edemam.Key+'&from=0&to=1', (res) => {
+	https.get('https://api.edam "am.com/search?q=chicken&app_id='+Edemam.ID+'&app_key='+Edemam.Key+'&from=0&to=1', (res) => {
 			console.log('statusCode:', res.statusCode);
 			console.log('headers: ', res.headers);
 

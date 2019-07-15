@@ -18,7 +18,6 @@ class List extends Component {
   getList = () => {
     fetch('/api/getList')
     .then(res => res.json())
-    .then(console.dir(res.json))
     .then(list => this.setState({ list }));
   }
 
