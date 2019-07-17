@@ -11,7 +11,7 @@ let router = express.Router();
 // Serve the static files from the React app
 app.use('/api', require('./routes'));
 app.get('*', (req,res) =>{
- 	res.sendFile(path.join(__dirname+'/client/public/index.html'));
+ 	res.sendFile(path.join(__dirname+'/client/build/index.html'));
  });
 // An api endpoint that returns a short list of items
 // router.get('/getList', (req,res) => {
