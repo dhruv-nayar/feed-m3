@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
 import List from './pages/List';
-import Navbar from './components/Navbar';
 
 class App extends Component {
   render() {
