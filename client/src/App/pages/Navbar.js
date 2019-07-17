@@ -38,7 +38,7 @@ class Navbar extends Component{
           </form>
         </div>
       </nav>
-);
+    );
   }
 }
 
