@@ -3,15 +3,13 @@ const path = require('path');
 
 const app = express();
 
+
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+app.use('/api', require('./api/api-index.js'));
+
 // An api endpoint that returns a short list of items
-app.get('/api/getList', (req,res) => {
-	var list = ["item1", "item2", "item3"];
-	res.json(list);
-	console.log('Sent list of items');
-});
 
 // Handles any requests that don't match the ones above
 app.get('*', (req,res) =>{
