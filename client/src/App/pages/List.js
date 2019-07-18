@@ -18,7 +18,7 @@ class List extends Component {
   getList = () => {
     fetch('/api/getList')
     .then(res => res.json())
-    .then(list => this.setState({ list }));
+    .then(list => this.setState({ list }))
   }
 
   render() {
