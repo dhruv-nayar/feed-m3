@@ -50,10 +50,12 @@ module.exports = router;
 
 var EdemamAPI = require('./Edemam/Edemam-Controller');
 
+//test function for route debugging purposes
 router.get('/test', function(req,res,next){
   res.json('Success! Reached '+scriptName);
 });
 
+//test function to ensure okta authentication working properly
 router.get('/testSecurity', authenticationRequired, function(req,res){
   res.json('you are authenticated');
 });
