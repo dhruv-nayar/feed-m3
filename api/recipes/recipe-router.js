@@ -54,7 +54,7 @@ router.get('/test', function(req,res,next){
   res.json('Success! Reached '+scriptName);
 });
 
-router.get('/testSecurity', authenticationRequired, req,res{
+router.get('/testSecurity', authenticationRequired, function(req,res){
   res.json('you are authenticated');
 });
 
