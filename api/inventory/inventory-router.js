@@ -40,6 +40,16 @@ function authenticationRequired(req, res, next) {
 
 const app = express();
 
-router.get()
+router.get('/getTestInventory', function(req, res){
+
+  //item name, age (days), category, storage type (fridge, freezer, pantry etc)
+  var genericList = [
+       {'name':'eggs', 'age':'14', 'category':'produce', 'storage':'fridge'},
+      {'name':'broccoli', 'age':'14', 'category':'produce', 'storage':'fridge'},
+      {'name':'cheese', 'age':'14', 'category':'produce', 'storage':'pantry'}
+    ];
+
+  res.json(genericList);
+});
 
 module.exports = router();
