@@ -11,6 +11,8 @@ router.get('/getList', (req,res) => {
 	console.log('Sent list of items');
 });
 
+
+//returns a sample inventory list for UI testing purposes
 router.get('/getTestInventory', function(req, res){
   //item name, age (days), category, storage type (fridge, freezer, pantry etc)
   var genericList = [
@@ -20,6 +22,11 @@ router.get('/getTestInventory', function(req, res){
     ];
 
   res.json(genericList);
+});
+
+//post items into inventory; sends a success or failure confirmation
+router.post('/postTestInventory', function(req, res){
+  res.json('success!');
 });
 
 // const express = require('express');
