@@ -17,3 +17,4 @@ router.get('/test', function(req,res,next){
 });
 
 router.use('/recipes', require('./recipes/recipe-router.js'));
+router.use('/inventory', requre('./inventory/inventory-router.js'));
