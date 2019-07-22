@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 //var cors = require('cors');
 const app = express();
+require('dotenv').config()
 
 //app.use(cors);
 // Serve the static files from the React app

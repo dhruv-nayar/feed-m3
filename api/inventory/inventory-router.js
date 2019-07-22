@@ -29,23 +29,84 @@ router.post('/postTestInventory', function(req, res){
   res.json('success!');
 });
 
-// const express = require('express');
-// var router = express.Router();
-// var path = require('path');
-// var scriptName = path.basename(__filename);
+const Pool = require('pg').Pool;
+const pool = new Pool({
+  database: 'api' || 'd94f4516d8u5mu'
+});
+// const Pool = require('pg').Pool
+// const pool = new Pool({
+//   user: 'dhruvnayar',
+//   host: 'localhost',
+//   database: 'api',
+//   password: 'password',
+//   port: 5432,
+// });
+
+router.get('/testPostgres', function(req, res){
+  pool.query('SELECT * FROM Users').then(function(response){
+    //console.log(response.rows);
+    res.json(response.rows);
+  }).catch(function(error){
+    res.json(error);
+  });
+});
+
+pool.query('SELECT * FROM Users').then(function(response){
+  console.log(response.rows);
+  //res.json(response.rows);
+}).catch(function(error){
+  throw error;
+});
+
+
+// (response, error, results) => {
+//     if (error) {
+//       throw error
+//     }
+//     response.status(200).json(results.rows)
+//   });
+
+
+// const { Client } = require('pg');
 //
 //
+// const client = new Client();
 //
-// router.get('/getTestInventory', function(req, res){
+// //establish database connection
+// client.connect()
+// .then(() => console.log('connected'))
+//   .catch(err => console.error('connection error', err.stack))
 //
-//   //item name, age (days), category, storage type (fridge, freezer, pantry etc)
-//   var genericList = [
-//        {'name':'eggs', 'age':'14', 'category':'produce', 'storage':'fridge'},
-//       {'name':'broccoli', 'age':'14', 'category':'produce', 'storage':'fridge'},
-//       {'name':'cheese', 'age':'14', 'category':'produce', 'storage':'pantry'}
-//     ];
+// //query the database
+// client.query('SELECT * FROM Users;')
+// .then((res) => console.log(res))
+//   .catch(err => console.error('connection error', err.stack))
 //
-//   res.json(genericList);
+// //close database connection
+// client.end();
+
+// client.connect().catch(function(err){
+//   throw (err)
+// });;
+//
+// client.query('SELECT t* FROM Users;').then(function(res){
+//   for (let row of res.rows) {
+//     console.log(JSON.stringify(row));
+//   }
+// }).catch(function(err){
+//   throw (err)
 // });
 //
-// module.exports = router();
+// client.end();
+
+
+
+// , (err, res) => {
+//   if (err) throw err;
+//   for (let row of res.rows) {
+//     console.log(JSON.stringify(row));
+//   }
+//   client.end();
+// }).catch(function(error){
+//   throw (error)
+// });
