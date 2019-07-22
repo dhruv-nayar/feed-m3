@@ -31,7 +31,8 @@ router.post('/postTestInventory', function(req, res){
 
 const Pool = require('pg').Pool;
 const pool = new Pool({
-  database: process.env.DATABASE || 'DATABASE_URL'
+  database: process.env.DATABASE || 'postgres://gceiagqzpwhyoi:7aaaad12d2a6790a17c805c3c486ee8a2f402e3daa28d8c5a031cc87c6232116@ec2-54-83-1-101.compute-1.amazonaws.com:5432/d94f4516d8u5mu
+'
 });
 // const Pool = require('pg').Pool
 // const pool = new Pool({
