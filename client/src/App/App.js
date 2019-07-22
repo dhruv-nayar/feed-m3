@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Security, ImplicitCallback } from '@okta/okta-react';
 import Home from './pages/Home';
+import Inventory from './components/Inventory';
 
 const config = {
   issuer: 'https://dev-510263.okta.com/oauth2/default',
@@ -21,6 +22,7 @@ class App extends Component {
         >
           <Route path='/' exact={true} component={Home}/>
           <Route path='/implicit/callback' component={ImplicitCallback}/>
+          <Route path='/inventory' exact={true} component={Inventory}/>
         </Security>
       </Router>
     );
