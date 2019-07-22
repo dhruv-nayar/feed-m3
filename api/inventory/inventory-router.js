@@ -42,13 +42,12 @@ if(__dirname.includes("Desktop")){
 	  database: process.env.DATABASE
 	});
 }
-
-if(typeof client == undefined)
+else{
 	client = new Client({
 	connectionString: process.env.DATABASE_URL
 	// || 'd94f4516d8u5mu'
 	});
-
+}
 console.log(require.main.filename);
 
 client.connect();
