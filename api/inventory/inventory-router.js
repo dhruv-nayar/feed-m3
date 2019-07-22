@@ -29,11 +29,15 @@ router.post('/postTestInventory', function(req, res){
   res.json('success!');
 });
 
-const Pool = require('pg').Pool;
+const {Client} = require('pg');
 // const pool = new Pool({
 //   database: 'api'
 // });
-const pool = new Pool();
+const client = new Client({
+  database: process.env.DATABASE || 'postgres://gceiagqzpwhyoi:7aaaad12d2a6790a17c805c3c486ee8a2f402e3daa28d8c5a031cc87c6232116@ec2-54-83-1-101.compute-1.amazonaws.com:5432/d94f4516d8u5mu'
+});
+
+client.connect();
 // const Pool = require('pg').Pool
 // const pool = new Pool({
 //   user: 'dhruvnayar',
@@ -44,7 +48,8 @@ const pool = new Pool();
 // });
 
 router.get('/testPostgres', function(req, res){
-  pool.query('SELECT * FROM Users').then(function(response){
+
+  client.query('SELECT * FROM Users').then(function(response){
     //console.log(response.rows);
     res.json(response.rows);
   }).catch(function(error){
@@ -52,12 +57,16 @@ router.get('/testPostgres', function(req, res){
   });
 });
 
-pool.query('SELECT * FROM Users').then(function(response){
-  console.log(response.rows);
-  //res.json(response.rows);
-}).catch(function(error){
-  throw error;
-});
+// client.connect();
+// client.query('SELECT * FROM Users').then(function(response){
+//   console.log(response.rows);
+//   client.end();
+//   //res.json(response.rows);
+// }).catch(function(error){
+//   client.end();
+//   throw error;
+// });
+
 
 
 // (response, error, results) => {
