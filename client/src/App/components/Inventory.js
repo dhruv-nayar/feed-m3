@@ -8,22 +8,22 @@ class Inventory extends Component {
         list: []
       }
     }
-  
+
     // Fetch the list on first mount
     async componentDidMount() {
       this.getList();
     }
-  
-    // Retrieves the list of items from the Express app
+
+    //Tries to get the list of names from postgres
     getList = () => {
-      fetch('/api/inventory/getTestInventory')
+      fetch('/api/inventory/testPostgres')
       .then(res => res.json())
-      .then(list => this.setState({ list }))
+      .then(list => this.setState({ list }));
     }
-  
+
     render() {
       const { list } = this.state;
-  
+
       return (
         <div>
           <h1>List of Items</h1>
@@ -41,7 +41,7 @@ class Inventory extends Component {
             </div>
           ) : (
             <div>
-              <h2>No List Items Found</h2>
+              <h2>Loading</h2>
             </div>
           )
         }
@@ -49,5 +49,5 @@ class Inventory extends Component {
       );
     }
   }
-  
+
   export default Inventory;
