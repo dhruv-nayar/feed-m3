@@ -43,7 +43,7 @@ if(__dirname.includes("Desktop")){
 	});
 }
 
-if(!client)
+if(typeof client == undefined)
 	client = new Client({
 	connectionString: process.env.DATABASE_URL
 	// || 'd94f4516d8u5mu'
