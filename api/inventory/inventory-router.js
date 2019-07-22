@@ -33,10 +33,21 @@ const {Client} = require('pg');
 // const pool = new Pool({
 //   database: 'api'
 // });
-const client = new Client({
-  connectionString: 'postgres://gceiagqzpwhyoi:7aaaad12d2a6790a17c805c3c486ee8a2f402e3daa28d8c5a031cc87c6232116@ec2-54-83-1-101.compute-1.amazonaws.com:5432/d94f4516d8u5mu'
-// || 'd94f4516d8u5mu'
-});
+
+
+
+if(__dirname.includes("Desktop")){
+	console.log('running locally');
+	client = new Client({
+	  database: process.env.DATABASE
+	});
+}
+
+if(client == null)
+	client = new Client({
+	connectionString: process.env.DATABASE_URL
+	// || 'd94f4516d8u5mu'
+	});
 
 console.log(require.main.filename);
 
