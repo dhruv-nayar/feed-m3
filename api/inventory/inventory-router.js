@@ -2,8 +2,28 @@ const express = require('express');
 var router = express.Router();
 var path = require('path');
 var scriptName = path.basename(__filename);
-
 module.exports = router;
+
+//initializes the postgresclient
+const {Client} = require('pg');
+
+//checks if running on localhost or heroku and sets client credentials accordingly
+if(__dirname.includes("Users")){
+	console.log('running locally');
+	client = new Client({
+	  database: process.env.DATABASE
+	});
+}
+else{
+	client = new Client({
+	connectionString: process.env.DATABASE_URL
+	// || 'd94f4516d8u5mu'
+	});
+}
+
+//connects the client to the postgresdb
+client.connect();
+
 
 router.get('/getList', (req,res) => {
 	var list = ["item1", "item2", "item3"];
@@ -16,9 +36,9 @@ router.get('/getList', (req,res) => {
 router.get('/getTestInventory', function(req, res){
   //item name, age (days), category, storage type (fridge, freezer, pantry etc)
   var genericList = [
-       {'name':'eggs', 'age':'14', 'category':'produce', 'storage':'fridge'},
-      {'name':'broccoli', 'age':'14', 'category':'produce', 'storage':'fridge'},
-      {'name':'cheese', 'age':'14', 'category':'produce', 'storage':'pantry'}
+       {'name':'eggs', 'age':'14', 'category':'produce', 'storage':'fridge', 'quantity':'4oz'},
+      {'name':'broccoli', 'age':'14', 'category':'produce', 'storage':'fridge', 'quantity':'4oz'},
+      {'name':'cheese', 'age':'14', 'category':'produce', 'storage':'pantry', 'quantity':'4oz'}
     ];
 
   res.json(genericList);
@@ -29,44 +49,17 @@ router.post('/postTestInventory', function(req, res){
   res.json('success!');
 });
 
-const {Client} = require('pg');
-// const pool = new Pool({
-//   database: 'api'
-// });
-
-
-
-if(__dirname.includes("Desktop")){
-	console.log('running locally');
-	client = new Client({
-	  database: process.env.DATABASE
-	});
-}
-else{
-	client = new Client({
-	connectionString: process.env.DATABASE_URL
-	// || 'd94f4516d8u5mu'
-	});
-}
-console.log(require.main.filename);
-
-client.connect();
-// const Pool = require('pg').Pool
-// const pool = new Pool({
-//   user: 'dhruvnayar',
-//   host: 'localhost',
-//   database: 'api',
-//   password: 'password',
-//   port: 5432,
-// });
-
+//returns all of the elements from the Users table within postgres
 router.get('/testPostgres', function(req, res){
+	// client.query('SELECT * FROM pg_catalog.pg_tables', function(err, result) {
+	//   console.log(result.rows);
+	// });
 
-  client.query('SELECT * FROM Users').then(function(response){
+  client.query('SELECT * FROM "Users_Inventory" WHERE "User_ID" = 123').then(function(response){
     //console.log(response.rows);
-    res.json(response.rows);
+    res.json(response.rows[0].User_Inventory);
   }).catch(function(error){
-    res.json(error);
+    res.json('error: '+error);
   });
 });
 
