@@ -3,7 +3,7 @@ import InventoryItem from './InventoryItem';
 import FilterList from './FilterList';
 import FilterSearch from './FilterSearch';
 
-class InventoryList extends Component {
+class InventoryPane extends Component {
     // Initialize the state
     constructor(props){
       super(props);
@@ -38,25 +38,31 @@ class InventoryList extends Component {
     render() {
       return (
         <div>
-          <h1>Your Inventory</h1>
-          {/* Check to see if any items are found*/}
-          {this.state.list.length ? (
-            <div>
-            <FilterSearch updateSearch={this.updateSearch.bind(this)} searchText={this.state.filter} />
-            <FilterList filter={this.state.filter} inventory={this.state.list}></FilterList>
-            </div>
-          ) : (
-            <div>
-              <h2>Loading</h2>
-            </div>
-          )
-        }
+        <div class="panel panel-default">
+          <div class="panel-heading"><h3>Your Inventory</h3></div>
+          <div class="panel-body">
+            {/* Check to see if any items are found*/}
+              {this.state.list.length ? (
+                <div>
+                <FilterSearch updateSearch={this.updateSearch.bind(this)} searchText={this.state.filter} />
+                <FilterList filter={this.state.filter} inventory={this.state.list}></FilterList>
+                </div>
+              ) : (
+                <div>
+                  <h2>Loading</h2>
+                </div>
+              )
+            }
+          </div>
+        </div>
+
+
         </div>
       );
     }
   }
 
-  export default InventoryList;
+  export default InventoryPane;
 
 
 

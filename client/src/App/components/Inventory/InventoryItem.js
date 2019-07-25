@@ -7,17 +7,52 @@ class InventoryItem extends Component{
       name: props.name,
       age: props.age,
       category: props.category,
-      storage: props.storage
+      storage: props.storage,
+      daysLeft: props.daysLeft,
+      ageString:null,
+      toolTipString:null
+    }
+  }
+
+  getDescriptionString(){
+    return (this.state.category+" | "+this.formatAge()+" in "+this.state.storage);
+  }
+
+  formatAge(){
+    if(this.state.age < 7){
+      return (this.state.age+" days");
+    }
+    else if(this.state.age % 7 ==0){
+      return Math.floor(this.state.age/7)+" weeks";
+    }
+    else{
+      return Math.floor(this.state.age/7)+"+ weeks";
     }
   }
 
   render(){
     return(
       <li class="list-group-item">
-          <span>{this.state.name}</span>
-          <button class="btn btn-default btn-xs float-right remove-item">
-          <span class="glyphicon glyphicon-remove"></span>
-        </button>
+          <div class = "container-fluid">
+              <div class = "row">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input form-control-lg float-center" id="exampleCheck1"/>
+                </div>
+                <div class ="col-10" onClick ={()=>console.log('click')}>
+                  <h3>{this.state.name+"  "}
+                      {this.state.daysLeft<8?
+                        (<span class="badge badge-danger badge-pill">{this.state.daysLeft} days until expiration</span>)
+                         : (<span class="badge badge-success badge-pill">{this.state.daysLeft} days until expiration</span>)
+                      }</h3>
+                    {this.getDescriptionString()}
+                </div>
+                <div class ="col-1 float-right">
+                  <button class="btn btn-default btn-lg float-right" onClick={()=>console.log('delete')}>
+                    <span class="glyphicon glyphicon-remove align-middle"></span>
+                  </button>
+              </div>
+            </div>
+          </div>
       </li>
     )
   }

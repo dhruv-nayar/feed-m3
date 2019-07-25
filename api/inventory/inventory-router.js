@@ -1,6 +1,7 @@
 const express = require('express');
 var router = express.Router();
 var path = require('path');
+var pgEscape = require('pg-escape')
 var scriptName = path.basename(__filename);
 module.exports = router;
 
@@ -35,11 +36,11 @@ router.get('/getList', (req,res) => {
 //returns a sample inventory list for UI testing purposes
 router.get('/getTestInventory', function(req, res){
   //item name, age (days), category, storage type (fridge, freezer, pantry etc)
-  var genericList = [
+  var genericList = [[
        {'name':'eggs', 'age':'14', 'category':'produce', 'storage':'fridge', 'quantity':'4oz'},
       {'name':'broccoli', 'age':'14', 'category':'produce', 'storage':'fridge', 'quantity':'4oz'},
       {'name':'cheese', 'age':'14', 'category':'produce', 'storage':'pantry', 'quantity':'4oz'}
-    ];
+    ]];
 
   res.json(genericList);
 });
@@ -47,6 +48,25 @@ router.get('/getTestInventory', function(req, res){
 //post items into inventory; sends a success or failure confirmation
 router.post('/postTestInventory', function(req, res){
   res.json('success!');
+});
+
+router.post('/updateTest', function(req, res){
+	const text = 'UPDATE "Users_Inventory" SET "User_Inventory" = $1 WHERE "User_ID" = 123';
+	var values = [JSON.stringify([
+       {'name':'eggs', 'age':'14', 'category':'produce', 'storage':'fridge', 'quantity':'4oz'},
+      {'name':'broccoli', 'age':'14', 'category':'produce', 'storage':'fridge', 'quantity':'4oz'},
+      {'name':'cheese', 'age':'14', 'category':'produce', 'storage':'pantry', 'quantity':'4oz'},
+			{'name':'bacon', 'age':'14', 'category':'produce', 'storage':'pantry', 'quantity':'4oz'}
+    ])];
+		console.log("list: "+(JSON.stringify(values)));
+	client.query(text,values).then(function(response){
+		//console.log(response.rows);
+		console.log("it worked!")
+		res.json("your test post worked");
+	}).catch(function(error){
+		console.log('error: '+error);
+		res.json('error: '+error);
+	});
 });
 
 //returns all of the elements from the Users table within postgres

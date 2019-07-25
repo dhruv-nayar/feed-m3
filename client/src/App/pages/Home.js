@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import { withAuth } from '@okta/okta-react';
 import Navbar from '../components/Navbar.js';
-import InventoryList from '../components/Inventory/InventoryList';
+import InventoryPane from '../components/Inventory/InventoryPane';
+import InventoryForm from '../components/Inventory/InventoryForm';
 //import InventoryContainer from '../components/Inventory/InventoryContainer';
 
 export default withAuth(class Home extends Component {
@@ -41,13 +42,13 @@ export default withAuth(class Home extends Component {
     return(
       <body>
       <Navbar user = {this}/>
-      <div class = "container">
+      <div class = "container-fluid">
         <div class = "row">
           <div class = "col-sm">
-            <InventoryList/>
+            <InventoryPane/>
           </div>
           <div class = "col-sm">
-
+            <InventoryForm/>
           </div>
         </div>
       </div>
