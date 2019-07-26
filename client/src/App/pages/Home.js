@@ -40,7 +40,7 @@ export default withAuth(class Home extends Component {
 
   render() {
     return(
-      <body>
+      <div>
       <Navbar user = {this}/>
       <div class = "container-fluid">
         <div class = "row">
@@ -52,7 +52,7 @@ export default withAuth(class Home extends Component {
           </div>
         </div>
       </div>
-      </body>
+      </div>
     )
   }
 

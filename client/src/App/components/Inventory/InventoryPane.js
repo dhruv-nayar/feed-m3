@@ -18,6 +18,8 @@ class InventoryPane extends Component {
       this.getList();
     }
 
+
+
     //if the text gets updated in the search box, then update our filter string to reflect that; this will impact the items that get shown in the inventory list
     updateSearch (inputValue) {
       let filter = this.state.filter;
@@ -35,6 +37,21 @@ class InventoryPane extends Component {
       .then(inventory => this.setState({list: inventory}));
     }
 
+    postList = () =>{
+      fetch('/api/inventory/updateTest', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({"inventory":this.state.list})
+      }).then(function(response) {
+        console.log(response.json());
+      }).then(function(data) {
+        console.log('Updated Inventory:', data);
+      });
+    }
+
     render() {
       return (
         <div>
@@ -49,7 +66,7 @@ class InventoryPane extends Component {
                 </div>
               ) : (
                 <div>
-                  <h2>Loading</h2>
+                  <li class = "list-group-item">No results found, add something to your inventory?</li>
                 </div>
               )
             }

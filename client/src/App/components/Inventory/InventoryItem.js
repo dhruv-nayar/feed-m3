@@ -4,6 +4,7 @@ class InventoryItem extends Component{
   constructor(props){
     super(props);
     this.state = {
+      fullJSON: props.fullJSON,
       name: props.name,
       age: props.age,
       category: props.category,
@@ -42,12 +43,12 @@ class InventoryItem extends Component{
                   <h3>{this.state.name+"  "}
                       {this.state.daysLeft<8?
                         (<span class="badge badge-danger badge-pill">{this.state.daysLeft} days until expiration</span>)
-                         : (<span class="badge badge-success badge-pill">{this.state.daysLeft} days until expiration</span>)
+                         : (<span class="badge badge-default badge-pill">{this.state.daysLeft} days until expiration</span>)
                       }</h3>
                     {this.getDescriptionString()}
                 </div>
                 <div class ="col-1 float-right">
-                  <button class="btn btn-default btn-lg float-right" onClick={()=>console.log('delete')}>
+                  <button class="btn btn-default btn-lg float-right" onClick={()=>this.props.removeItem(this.state.fullJSON)}>
                     <span class="glyphicon glyphicon-remove align-middle"></span>
                   </button>
               </div>

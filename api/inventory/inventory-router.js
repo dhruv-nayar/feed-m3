@@ -47,17 +47,13 @@ router.get('/getTestInventory', function(req, res){
 
 //post items into inventory; sends a success or failure confirmation
 router.post('/postTestInventory', function(req, res){
+	console.log(req.body);
   res.json('success!');
 });
 
 router.post('/updateTest', function(req, res){
 	const text = 'UPDATE "Users_Inventory" SET "User_Inventory" = $1 WHERE "User_ID" = 123';
-	var values = [JSON.stringify([
-       {'name':'eggs', 'age':'14', 'category':'produce', 'storage':'fridge', 'quantity':'4oz'},
-      {'name':'broccoli', 'age':'14', 'category':'produce', 'storage':'fridge', 'quantity':'4oz'},
-      {'name':'cheese', 'age':'14', 'category':'produce', 'storage':'pantry', 'quantity':'4oz'},
-			{'name':'bacon', 'age':'14', 'category':'produce', 'storage':'pantry', 'quantity':'4oz'}
-    ])];
+	var values = [JSON.stringify(req.body.inventory)];
 		console.log("list: "+(JSON.stringify(values)));
 	client.query(text,values).then(function(response){
 		//console.log(response.rows);
