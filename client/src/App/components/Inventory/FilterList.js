@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 import InventoryItem from './InventoryItem'
+import { connect } from "react-redux";
+import { overwriteInventory } from "../../../redux/actions/index";
+
+function mapDispatchToProps(dispatch) {
+  return {
+    overwriteInventory: inventory => dispatch(overwriteInventory(inventory))
+  };
+}
 
 
+const mapStateToProps = state => {
+  return { inventory: state.inventory };
+};
 
 class FilterList extends React.Component {
   constructor(props){
@@ -11,9 +22,14 @@ class FilterList extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+     console.log();
+     this.setState({fullInventory : nextProps.inventory})
+    }
+
   removeItem(itemToRemove){
     var arr = this.state.fullInventory.filter((ingredient)=> ingredient.name != itemToRemove.name);
-    this.setState({fullInventory:arr},()=>{console.log('item removed: '+JSON.stringify(itemToRemove)); console.log(this.state.list)})
+    this.setState({fullInventory:arr},()=>{this.props.overwriteInventory(arr)})
   }
 
   filter (inventory) {
@@ -51,7 +67,7 @@ class FilterList extends React.Component {
       <ul class="list-group">
       {console.log(filteredInventory)}
       {filteredInventory.length ? (
-            filteredInventory.map((inventoryItem) => <InventoryItem removeItem={this.removeItem.bind(this)} key={inventoryItem.name+inventoryItem.age+inventoryItem.quantity} fullJSON={inventoryItem} name={inventoryItem.name} category={inventoryItem.category} age={inventoryItem.age} storage={inventoryItem.storage} daysLeft={12}></InventoryItem>)
+            filteredInventory.map((inventoryItem) => <InventoryItem removeItem={this.removeItem.bind(this)} key={inventoryItem.id} fullJSON={inventoryItem} name={inventoryItem.name} category={inventoryItem.category} age={inventoryItem.age} storage={inventoryItem.storage} daysLeft={12}></InventoryItem>)
         ):(
           <li className = "list-group-item">No results found, add something to your inventory?</li>
         )
@@ -62,7 +78,7 @@ class FilterList extends React.Component {
   }
 }
 
-export default FilterList;
+export default connect(mapStateToProps,mapDispatchToProps)(FilterList);
 
 
 //{this.filter(this.props.inventory)

@@ -62,7 +62,7 @@ class InventoryPane extends Component {
               {this.state.list.length ? (
                 <div>
                 <FilterSearch updateSearch={this.updateSearch.bind(this)} searchText={this.state.filter} />
-                <FilterList filter={this.state.filter} inventory={this.state.list}></FilterList>
+                <FilterList filter={this.state.filter}></FilterList>
                 </div>
               ) : (
                 <div>

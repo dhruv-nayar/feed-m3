@@ -6,7 +6,7 @@ import { Security, ImplicitCallback } from '@okta/okta-react';
 import Home from './pages/Home';
 //import SwapList from './components/SwapListTest';
 import { Provider } from "react-redux";
-import store from "../js//store/index";
+import store from "../redux/store/index";
 import ReduxTest from "./components/ReduxTest/ReduxTest"
 
 const config = {
