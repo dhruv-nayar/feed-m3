@@ -3,13 +3,14 @@ import InventoryItem from './InventoryItem'
 import { connect } from "react-redux";
 import { overwriteInventory } from "../../../redux/actions/index";
 
+//this function ties the overwriteInventory function from redux to the "props" for FilterList
 function mapDispatchToProps(dispatch) {
   return {
     overwriteInventory: inventory => dispatch(overwriteInventory(inventory))
   };
 }
 
-
+//this function ties the state.inventory from Redux to the "props" for FilterList
 const mapStateToProps = state => {
   return { inventory: state.inventory };
 };
@@ -22,16 +23,19 @@ class FilterList extends React.Component {
     }
   }
 
+  //updates the inventory props if the Redux inventory gets updated
   componentWillReceiveProps(nextProps) {
      console.log();
      this.setState({fullInventory : nextProps.inventory})
     }
 
+  //activated if the "remove" button is clicked on any specific inventory item; updates state and sends the update to Redux
   removeItem(itemToRemove){
     var arr = this.state.fullInventory.filter((ingredient)=> ingredient.name != itemToRemove.name);
     this.setState({fullInventory:arr},()=>{this.props.overwriteInventory(arr)})
   }
 
+  //returns a filtered version of the inventory list if users search for a specific item
   filter (inventory) {
     if (!this.props.filter) {
       return inventory;
@@ -39,6 +43,7 @@ class FilterList extends React.Component {
     return inventory.filter((ingredient) => ingredient.name.toLowerCase().search(this.props.filter.toLowerCase()) != -1)
   }
 
+  //post call to node for testing purposes; post and get requests likely to be moved to Redux
   testPost(){
     fetch('/api/inventory/updateTest', {
     headers: {
@@ -78,8 +83,5 @@ class FilterList extends React.Component {
   }
 }
 
+//connect ties the redux state variables and redux functions into the props for the FilterList component
 export default connect(mapStateToProps,mapDispatchToProps)(FilterList);
-
-
-//{this.filter(this.props.inventory)
-//    .map((inventoryItem) => <InventoryItem name={inventoryItem}></InventoryItem>)}

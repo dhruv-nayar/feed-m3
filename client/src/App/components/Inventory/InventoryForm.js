@@ -3,12 +3,14 @@ import { connect } from "react-redux";
 import uuidv1 from "uuid";
 import { addInventory } from "../../../redux/actions/index";
 
+//this ties the Redux addInventory function into the props for InventoryForm
 function mapDispatchToProps(dispatch) {
   return {
     addInventory: inventory => dispatch(addInventory(inventory))
   };
 }
 
+//this ties the state.inventory variable from redux into the props for InventoryForm
 const mapStateToProps = state => {
   return { inventory: state.inventory };
 };
@@ -28,19 +30,24 @@ class InventoryForm extends Component{
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  //this component waits for updated Redux inventory to update the component's state accordingly
   componentWillReceiveProps(nextProps) {
      console.log();
      this.setState({fullInventory : nextProps.inventory})
     }
 
+  //testing function no longer in use
   addItem(){
     console.log("item added: "+this.state.Food);
   }
 
+  //this function updates the
   handleChange(event){
     this.setState({[event.target.name]:[event.target.value]}, ()=>{console.log(this.state);});
   }
 
+
+  //this function waits for a form submission and then packages up the inventory data to send to Redux
   handleSubmit(event) {
     event.preventDefault();
     const inventoryName = this.state.Food[0]
@@ -90,4 +97,5 @@ class InventoryForm extends Component{
   }
 }
 
+//this ties the state.variables and functions from Redux into the props for the InventoryForm component
 export default connect(mapStateToProps, mapDispatchToProps)(InventoryForm);;
