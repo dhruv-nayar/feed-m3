@@ -14,6 +14,7 @@ const initialState = {
   nextInventory: [], //stores the inventory to be loaded on "redo"
   undoAvailable: false,
   redoAvailable: false,
+  undoableAction: "",
   inventoryLoadStatus: "loading",
   inventoryPostStatus: "latest changes saved"
 };
@@ -33,7 +34,8 @@ function rootReducer(state = initialState, action) {
     return Object.assign({}, state, {
       pastInventory: [].concat(state.inventory),
       inventory: state.inventory.concat(action.payload),
-      undoAvailable: true
+      undoAvailable: true,
+      undoableAction: "inventory added"
     });
   }
 
@@ -44,7 +46,8 @@ function rootReducer(state = initialState, action) {
     return Object.assign({}, state, {
       pastInventory: [].concat(state.inventory),
       inventory: action.payload,
-      undoAvailable: true
+      undoAvailable: true,
+      undoableAction: "inventory deleted"
     });
   }
 
