@@ -1,16 +1,21 @@
 // src/js/reducers/index.js
 // redux reducer index.js
+// the "reducer" is used to "reduce" all of the different action items into a single "state" that can be referenced
+
 import {ADD_ARTICLE} from '../constants/action-types';
 import {ADD_INVENTORY} from '../constants/action-types';
 import {OVERWRITE_INVENTORY} from '../constants/action-types';
+import {INVENTORY_DATA_LOADED} from '../constants/action-types';
 
 const initialState = {
   articles: [{"id":"ID1", "title":"test article name"}],
-  inventory: [
-       {'id':'test1','name':'eggs', 'age':'14', 'category':'produce', 'storage':'fridge', 'quantity':'4oz'},
-      {'id':'test2','name':'broccoli', 'age':'14', 'category':'produce', 'storage':'fridge', 'quantity':'4oz'},
-      {'id':'test3','name':'cheese', 'age':'14', 'category':'produce', 'storage':'pantry', 'quantity':'4oz'}
-    ]
+  inventory: [],
+  lastInventory: [], //stores the inventory to be loaded on "undo"
+  nextInventory: [], //stores the inventory to be loaded on "redo"
+  undoAvailable: false,
+  redoAvailable: false,
+  inventoryLoadStatus: "loading",
+  inventoryPostStatus: "latest changes saved"
 };
 
 //this function is from a tutorial; not used for feed-m3
@@ -26,7 +31,9 @@ function rootReducer(state = initialState, action) {
     //console.log('adding inventory call:');
     //console.log(action.payload);
     return Object.assign({}, state, {
-      inventory: state.inventory.concat(action.payload)
+      pastInventory: [].concat(state.inventory),
+      inventory: state.inventory.concat(action.payload),
+      undoAvailable: true
     });
   }
 
@@ -35,9 +42,38 @@ function rootReducer(state = initialState, action) {
     //console.log('adding inventory call:');
     //console.log(action.payload);
     return Object.assign({}, state, {
-      inventory: action.payload
+      pastInventory: [].concat(state.inventory),
+      inventory: action.payload,
+      undoAvailable: true
     });
   }
+
+  //once data gets loaded from the user; overwrite the corresponded state items
+  if (action.type === INVENTORY_DATA_LOADED) {
+    return Object.assign({}, state, {
+      inventory: action.payload,
+      inventoryLoadStatus: "successful"
+    });
+  }
+
+  //if getting user's inventory data fails
+  if (action.type === "INVENTORY_GET_ERRORED") {
+    return Object.assign({}, state, {
+      inventoryLoadStatus: "failed"
+    });
+  }
+
+  //if getting user's inventory data fails
+  if (action.type === "UNDO") {
+    console.log('undo called');
+    return Object.assign({}, state, {
+      nextInventory: [].concat(state.inventory),
+      inventory: [].concat(state.pastInventory),
+      pastInventory: []
+    });
+  }
+
+
   return state;
 }
 export default rootReducer;

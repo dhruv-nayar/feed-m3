@@ -16,3 +16,16 @@ export function addInventory(payload) {
 export function overwriteInventory(payload) {
   return { type: "OVERWRITE_INVENTORY", payload }
 };
+
+export function getInventoryData() {
+  return { type: "INVENTORY_DATA_REQUESTED" };
+}
+
+export function postInventoryData(payload) {
+  return { type: "INVENTORY_POST_REQUESTED", payload };
+}
+
+export function reduxUndo() {
+  console.log('undo action called');
+  return { type: "UNDO" };
+}

@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import uuidv1 from "uuid";
-import { addInventory } from "../../../redux/actions/index";
+import { addInventory, postInventoryData, reduxUndo} from "../../../redux/actions/index";
 
 //this ties the Redux addInventory function into the props for InventoryForm
 function mapDispatchToProps(dispatch) {
   return {
-    addInventory: inventory => dispatch(addInventory(inventory))
+    addInventory: inventory => dispatch(addInventory(inventory)),
+    postInventoryData: inventory => dispatch(postInventoryData(inventory)),
+    reduxUndo: () => dispatch(reduxUndo())
   };
 }
 
 //this ties the state.inventory variable from redux into the props for InventoryForm
 const mapStateToProps = state => {
-  return { inventory: state.inventory };
+  return { inventory: state.inventory, undoAvailable: state.undoAvailable };
 };
 
 class InventoryForm extends Component{
@@ -24,24 +26,29 @@ class InventoryForm extends Component{
       PurchaseDate: null,
       Storage: null,
       Category: null,
-      fullInventory: this.props.inventory
+      fullInventory: this.props.inventory,
+      undoAvailable: this.props.undoAvailable
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.undoFunction = this.undoFunction.bind(this);
   }
 
   //this component waits for updated Redux inventory to update the component's state accordingly
   componentWillReceiveProps(nextProps) {
-     console.log();
-     this.setState({fullInventory : nextProps.inventory})
+     //console.log();
+     this.props.postInventoryData(nextProps.inventory);
+     this.setState({fullInventory : nextProps.inventory, undoAvailable : nextProps.undoAvailable})
     }
 
   //testing function no longer in use
-  addItem(){
-    console.log("item added: "+this.state.Food);
+  undoFunction(event){
+    //event.preventDefault();
+    console.log('undo click logged');
+    this.props.reduxUndo();
   }
 
-  //this function updates the
+  //this function updates the state values as users type into the form
   handleChange(event){
     this.setState({[event.target.name]:[event.target.value]}, ()=>{console.log(this.state);});
   }
@@ -61,7 +68,7 @@ class InventoryForm extends Component{
                               "age": inventoryAge,
                               "category": inventoryCategory,
                               "storage": inventoryStorage,
-                              "quantity": inventoryQuantity},()=>{console.log("updated inventory:"+this.state.fullInventory)});
+                              "quantity": inventoryQuantity});
   }
 
   render(){
@@ -88,10 +95,9 @@ class InventoryForm extends Component{
             <div class="col">
               <button class="btn btn-primary btn-lg" type="submit"><span class = "glyphicon glyphicon-ok"/></button>
             </div>
-
           </div>
         </form>
-        {this.state.fullInventory.map((inventoryItem)=>(<div id = {inventoryItem.name}>{inventoryItem.name}</div>))}
+        {this.state.undoAvailable? (<button type="button" className="btn btn-primary btn-lg" onClick = {()=>{this.undoFunction; return false}}> undo available </button>) : (<div> undo not available </div>)}
       </div>
     );
   }

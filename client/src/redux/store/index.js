@@ -1,6 +1,21 @@
 // src/js/store/index.js
 //redux index file for react
-import { createStore } from "redux";
+import { createStore, applyMiddleware, compose} from "redux";
 import rootReducer from "../reducers/index";
-const store = createStore(rootReducer);
+import { forbiddenWordsMiddleware } from "../middleware";
+import createSagaMiddleware from "redux-saga";
+import apiSaga from "../sagas/api-sagas";
+const initialiseSagaMiddleware = createSagaMiddleware();
+
+const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  rootReducer,
+  storeEnhancers(
+    applyMiddleware(forbiddenWordsMiddleware, initialiseSagaMiddleware)
+  )
+);
+
+initialiseSagaMiddleware.run(apiSaga);
+
 export default store;

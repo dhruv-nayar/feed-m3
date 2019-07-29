@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "../redux/store/index";
 import ReduxTest from "./components/ReduxTest/ReduxTest"
 
+//config file needed for Okta login
 const config = {
   issuer: 'https://dev-510263.okta.com/oauth2/default',
   redirect_uri: window.location.origin + '/implicit/callback',
