@@ -58,17 +58,11 @@ class InventoryPane extends Component {
         <div class="panel panel-default">
           <div class="panel-heading"><h3>Your Inventory</h3></div>
           <div class="panel-body">
-            {/* Check to see if any items are found*/}
-              {this.state.list.length ? (
                 <div>
                 <FilterSearch updateSearch={this.updateSearch.bind(this)} searchText={this.state.filter} />
                 <FilterList filter={this.state.filter}></FilterList>
                 </div>
-              ) : (
-                <div>
-                  <li class = "list-group-item">No results found, add something to your inventory?</li>
-                </div>
-              )
+
             }
           </div>
         </div>
